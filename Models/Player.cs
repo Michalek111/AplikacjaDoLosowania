@@ -4,18 +4,13 @@ namespace AplikacjaDoLosowania.Models
 {
     public class Player
     {
-        public int ID {  get; set; }
+        public int Id { get; set; }
 
-        [Required]
-        [StringLength(100)]
+        [Required(ErrorMessage = "Pole Nick jest wymagane.")]
+        [StringLength(100, ErrorMessage = "Nick może mieć maksymalnie 100 znaków.")]
+        public string Nick { get; set; } = string.Empty;
 
-        public string Nick { get; set; }
-
-
-        [Range(0, int.MaxValue)]
         public int GamesPlayed { get; set; } = 0;
-
-        [Range(0, int.MaxValue)]
         public int GamesWon { get; set; } = 0;
     }
 }

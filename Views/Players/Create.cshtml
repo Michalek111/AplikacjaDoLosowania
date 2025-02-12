@@ -1,0 +1,18 @@
+﻿@model AplikacjaDoLosowania.Models.Player
+
+@{
+    ViewData["Title"] = "Dodaj Gracza";
+}
+
+<h2>Dodaj Nowego Gracza</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="Nick">Nick</label>
+        <input asp-for="Nick" class="form-control" required />
+        <span asp-validation-for="Nick" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Dodaj</button>
+    <a asp-action="SelectPlayers" class="btn btn-secondary">Powrót</a>
+</form>
