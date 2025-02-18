@@ -1,0 +1,44 @@
+﻿@model List<AplikacjaDoLosowania.Models.Player>
+
+@{
+    ViewData["Title"] = "Statystyki Graczy";
+}
+
+<div class="container">
+    <h2 class="text-center mt-4">📊 Statystyki Graczy</h2>
+
+    @if (!Model.Any())
+    {
+        <p class="text-center text-muted">Brak graczy w bazie.</p>
+    }
+    else
+    {
+        <table class="table table-striped mt-3">
+            <thead class="thead-dark">
+                <tr>
+                    <th>#</th>
+                    <th>👤 Nick</th>
+                    <th>🎮 Rozegrane Mecze</th>
+                    <th>🏆 Wygrane Mecze</th>
+                    <th>📈 Procent Wygranych</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var player in Model.Select((p, index) => new { p, index }))
+                {
+                    var winRate = player.p.GamesPlayed > 0
+                    ? (double)player.p.GamesWon / player.p.GamesPlayed * 100
+                    : 0;
+
+                    <tr>
+                        <td>@(player.index + 1)</td>
+                        <td>@player.p.Nick</td>
+                        <td>@player.p.GamesPlayed</td>
+                        <td>@player.p.GamesWon</td>
+                        <td>@winRate.ToString("0.0")%</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

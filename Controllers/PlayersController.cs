@@ -199,5 +199,16 @@ namespace AplikacjaDoLosowania.Controllers
             Console.WriteLine("✅ Mecz zatwierdzony!");
             return Json(new { success = true, message = "Mecz zatwierdzony!" });
         }
+
+        public async Task<IActionResult> PlayerStats()
+        {
+            var players = await _dbContext.Players
+                .OrderByDescending(p => p.GamesWon) 
+                .ThenByDescending(p => p.GamesPlayed)
+                .ToListAsync();
+
+            return View(players);
+        }
+
     }
 }
