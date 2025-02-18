@@ -172,6 +172,28 @@ namespace AplikacjaDoLosowania.Controllers
                 }
             }
 
+            var team1Players = await _dbContext.Players
+                .Where(p => matchData.Team1Ids.Contains(p.Id))
+                .Select(p => p.Nick)
+                .ToListAsync();
+
+            var team2Players = await _dbContext.Players
+                .Where(p => matchData.Team2Ids.Contains(p.Id))
+                .Select(p => p.Nick)
+                .ToListAsync();
+
+
+            Match newMatch = new Match
+            {
+                Team1Players = string.Join(", ", team1Players),
+                Team2Players = string.Join(", ", team2Players),
+                Team1Score = matchData.Team1Score,
+                Team2Score = matchData.Team2Score,
+                Map = matchData.Map,
+                MatchDate = DateTime.Now
+            };
+
+            _dbContext.Matches.Add(newMatch);
             await _dbContext.SaveChangesAsync();
 
             Console.WriteLine("✅ Mecz zatwierdzony!");

@@ -8,10 +8,10 @@ namespace AplikacjaDoLosowania.Models
         public int Id { get; set; }
 
         [Required]
-        public string Team1Plyers { get; set; }
+        public string Team1Players { get; set; }
 
         [Required]
-        public string Team2Plyers { get; set;}
+        public string Team2Players { get; set;}
 
         [Required]
         public int Team1Score { get; set; }
