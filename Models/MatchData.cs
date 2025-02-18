@@ -6,7 +6,5 @@
         public int Team2Score { get; set; }
         public List<int> Team1Ids { get; set; }
         public List<int> Team2Ids { get; set; }
-
-        public string map { get; set; }
     }
 }

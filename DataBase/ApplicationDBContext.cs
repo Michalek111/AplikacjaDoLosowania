@@ -10,5 +10,6 @@ namespace AplikacjaDoLosowania.DataBase
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options) { }
 
         public DbSet<Player>  Players { get; set; }
+        public DbSet<Match> Matches { get; set; }   
     }
 }
