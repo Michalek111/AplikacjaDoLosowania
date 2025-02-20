@@ -24,9 +24,8 @@ namespace AplikacjaDoLosowania.Controllers
 
         public async Task<IActionResult> SelectPlayers()
         {
-            ViewBag.SelectedPlayers = _playerService.GetSelectedPlayers();
-            var availablePlayers = await _playerService.GetAvailablePlayersAsync();
-
+            ViewBag.SelectedPlayers = _playerService.GetSelectedPlayers(HttpContext.Session);
+            var availablePlayers = await _playerService.GetAvailablePlayersAsync(HttpContext.Session);
             return View(availablePlayers);
 
         }
@@ -36,10 +35,9 @@ namespace AplikacjaDoLosowania.Controllers
         public async Task<IActionResult> AddToSelected(int id)
         {
             var player = await _playerRepository.GetPlayerByIdAsync(id);
-
             if (player != null)
             {
-                _playerService.AddToSelected(player);
+                _playerService.AddToSelected(HttpContext.Session, player);
             }
             return RedirectToAction("SelectPlayers");
         }
@@ -48,7 +46,7 @@ namespace AplikacjaDoLosowania.Controllers
         [HttpPost]
         public IActionResult RemoveFromSelected(int id)
         {
-            _playerService.RemoveFromSelected(id);
+            _playerService.RemoveFromSelected(HttpContext.Session, id);
             return RedirectToAction("SelectPlayers");
         }
 
@@ -86,9 +84,7 @@ namespace AplikacjaDoLosowania.Controllers
         [HttpPost]
         public IActionResult RandomTeams()
         {
-
-            var teams = _playerService.GenerateRandomTeams();
-
+            var teams = _playerService.GenerateRandomTeams(HttpContext.Session);
             if (teams == null)
             {
                 TempData["ErrorMessage"] = "Musisz wybrać 10 graczy!";
@@ -97,7 +93,6 @@ namespace AplikacjaDoLosowania.Controllers
 
             ViewBag.Team1 = teams.Value.Team1;
             ViewBag.Team2 = teams.Value.Team2;
-
             return View("RandomTeams");
         }
 
