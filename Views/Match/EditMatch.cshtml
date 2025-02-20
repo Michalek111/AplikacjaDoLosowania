@@ -1,0 +1,24 @@
+﻿@model AplikacjaDoLosowania.Models.Match
+
+@{
+    ViewData["Title"] = "Edytuj wynik meczu";
+}
+
+<h2>Edytuj wynik meczu</h2>
+
+<form method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="form-group">
+        <label>Drużyna 1: @Model.Team1Players</label>
+        <input type="number" name="Team1Score" class="form-control" value="@Model.Team1Score" required />
+    </div>
+
+    <div class="form-group">
+        <label>Drużyna 2: @Model.Team2Players</label>
+        <input type="number" name="Team2Score" class="form-control" value="@Model.Team2Score" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">Zapisz zmiany</button>
+    <a asp-action="MatchHistory" class="btn btn-secondary">Anuluj</a>
+</form>

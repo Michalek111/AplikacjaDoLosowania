@@ -7,6 +7,9 @@ namespace AplikacjaDoLosowania.Services
         bool IsValidCs2Score(int team1Score, int team2Score);
         Task<bool> ConfirmMatchAsync(MatchData matchData);
         Task<List<Player>> GetPlayerStatsAsync();
+        Task<bool> UpdateMatchAsync(Match match);
+        Task<List<Match>> GetMatchHistoryAsync();
+        Task<Match> GetMatchByIdAsync(int id);
     }
 
 }

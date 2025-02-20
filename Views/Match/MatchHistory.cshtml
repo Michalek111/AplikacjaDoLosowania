@@ -21,6 +21,10 @@
                     <th>⚔️ Wynik</th>
                     <th>🏆 Drużyna 2</th>
                     <th>🌍 Mapa</th>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <th>✏️ Akcje</th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -32,6 +36,15 @@
                         <td><strong>@match.Team1Score - @match.Team2Score</strong></td>
                         <td>@match.Team2Players</td>
                         <td>@match.Map</td>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <td>
+                                <a asp-controller="Match" asp-action="EditMatch" asp-route-id="@match.Id" class="btn btn-warning btn-sm">
+                                    ✏️ Edytuj
+                                </a>
+                            </td>
+                        }
                     </tr>
                 }
             </tbody>

@@ -108,5 +108,69 @@ namespace AplikacjaDoLosowania.Services
                 .ThenByDescending(p => p.GamesPlayed)
                 .ToListAsync();
         }
+
+        public async Task<bool> UpdateMatchAsync(Match match)
+        {
+            var existingMatch = await _dbContext.Matches.FindAsync(match.Id);
+            if (existingMatch == null) return false;
+
+
+            if (!IsValidCs2Score(match.Team1Score, match.Team2Score))
+            {
+                return false;
+            }
+
+
+            var team1Players = await _dbContext.Players
+                .Where(p => existingMatch.Team1Players.Contains(p.Nick))
+                .ToListAsync();
+
+            var team2Players = await _dbContext.Players
+                .Where(p => existingMatch.Team2Players.Contains(p.Nick))
+                .ToListAsync();
+
+
+            foreach (var player in team1Players.Concat(team2Players))
+            {
+                player.GamesPlayed -= 1;
+                if ((existingMatch.Team1Score > existingMatch.Team2Score && team1Players.Contains(player)) ||
+                    (existingMatch.Team2Score > existingMatch.Team1Score && team2Players.Contains(player)))
+                {
+                    player.GamesWon -= 1;
+                }
+            }
+
+
+            existingMatch.Team1Score = match.Team1Score;
+            existingMatch.Team2Score = match.Team2Score;
+
+
+            foreach (var player in team1Players.Concat(team2Players))
+            {
+                player.GamesPlayed += 1;
+                if ((match.Team1Score > match.Team2Score && team1Players.Contains(player)) ||
+                    (match.Team2Score > match.Team1Score && team2Players.Contains(player)))
+                {
+                    player.GamesWon += 1;
+                }
+            }
+
+
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<List<Match>> GetMatchHistoryAsync()
+        {
+            return await _dbContext.Matches
+                .OrderByDescending(m => m.MatchDate)
+                .ToListAsync();
+        }
+
+        public async Task<Match> GetMatchByIdAsync(int id)
+        {
+            return await _dbContext.Matches.FindAsync(id);
+        }
+
     }
 }
