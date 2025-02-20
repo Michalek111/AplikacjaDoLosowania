@@ -87,22 +87,18 @@ namespace AplikacjaDoLosowania.Controllers
         public IActionResult RandomTeams()
         {
 
-            var selectedPlayers = _playerService.GetSelectedPlayers();
+            var teams = _playerService.GenerateRandomTeams();
 
-            if (selectedPlayers.Count == 10)
+            if (teams == null)
             {
-                var shuffled = selectedPlayers.OrderBy(p => Guid.NewGuid()).ToList();
-                var team1 = shuffled.Take(5).ToList();
-                var team2 = shuffled.Skip(5).Take(5).ToList();
-
-                ViewBag.Team1 = team1;
-                ViewBag.Team2 = team2;
-
-                return View("RandomTeams");
+                TempData["ErrorMessage"] = "Musisz wybrać 10 graczy!";
+                return RedirectToAction("SelectPlayers");
             }
 
-            TempData["ErrorMessage"] = "Musisz wybrać 10 graczy!";
-            return RedirectToAction("SelectPlayers");
+            ViewBag.Team1 = teams.Value.Team1;
+            ViewBag.Team2 = teams.Value.Team2;
+
+            return View("RandomTeams");
         }
 
         [HttpPost]

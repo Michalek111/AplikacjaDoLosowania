@@ -8,5 +8,8 @@ namespace AplikacjaDoLosowania.Services
         void AddToSelected(Player player);
         void RemoveFromSelected(int id);
         List<Player> GetSelectedPlayers();
+
+
+        (List<Player> Team1, List<Player> Team2)? GenerateRandomTeams();
     }
 }

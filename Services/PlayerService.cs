@@ -38,5 +38,20 @@ namespace AplikacjaDoLosowania.Services
         {
             return selectedPlayers;
         }
+
+        public (List<Player> Team1, List<Player> Team2)? GenerateRandomTeams()
+        {
+            if (selectedPlayers.Count != 10)
+            {
+                return null;
+            }
+
+            var shuffled = selectedPlayers.OrderBy(p => Guid.NewGuid()).ToList();
+            var team1 = shuffled.Take(5).ToList();
+            var team2 = shuffled.Skip(5).Take(5).ToList();
+
+            return (team1, team2);
+        }
+
     }
 }
