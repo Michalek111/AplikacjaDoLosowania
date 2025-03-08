@@ -31,6 +31,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IMatchService, MatchService>();
+builder.Services.AddScoped<PredictionService>();
 
 
 var app = builder.Build();

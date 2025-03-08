@@ -13,12 +13,14 @@ namespace AplikacjaDoLosowania.Controllers
         private readonly IPlayerRepository _playerRepository;
         private readonly IPlayerService _playerService;
         private readonly IMatchService _matchService;
+        private readonly PredictionService _predictionService;
 
-        public PlayersController(IPlayerService playerService, IPlayerRepository playerRepository, IMatchService matchService)
+        public PlayersController(IPlayerService playerService, IPlayerRepository playerRepository, IMatchService matchService, PredictionService predictionService)
         {
             _playerRepository = playerRepository;
             _playerService = playerService;
             _matchService = matchService;
+            _predictionService = predictionService;
         }
 
 
@@ -93,6 +95,15 @@ namespace AplikacjaDoLosowania.Controllers
 
             ViewBag.Team1 = teams.Value.Team1;
             ViewBag.Team2 = teams.Value.Team2;
+
+            float team1WinRatio = teams.Value.Team1.Average(p => p.GamesPlayed == 0 ? 0 : (float)p.GamesWon / p.GamesPlayed);
+            float team2WinRatio = teams.Value.Team2.Average(p => p.GamesPlayed == 0 ? 0 : (float)p.GamesWon / p.GamesPlayed);
+
+            float winProbability = _predictionService.PredictWinChance(team1WinRatio, team2WinRatio);
+
+            ViewBag.Team1WinProbability = winProbability * 100;
+            ViewBag.Team2WinProbability = (1 - winProbability) * 100;
+
             return View("RandomTeams");
         }
 

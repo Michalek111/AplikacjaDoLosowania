@@ -2,11 +2,21 @@
     ViewData["Title"] = "Wylosowane Drużyny";
     var team1 = ViewBag.Team1 as List<AplikacjaDoLosowania.Models.Player> ?? new List<AplikacjaDoLosowania.Models.Player>();
     var team2 = ViewBag.Team2 as List<AplikacjaDoLosowania.Models.Player> ?? new List<AplikacjaDoLosowania.Models.Player>();
+
+    var team1WinProbability = ViewBag.Team1WinProbability as float? ?? 50;
+    var team2WinProbability = ViewBag.Team2WinProbability as float? ?? 50;
 }
 <div id="matchData"
      data-confirm-match-url="@Url.Action("ConfirmMatch", "Players")"
      data-select-players-url="@Url.Action("SelectPlayers", "Players")">
 </div>
+
+<h3 class="text-center mt-4">🔥 Szansa na wygraną 🔥</h3>
+<p class="text-center">
+    Drużyna 1: <strong>@team1WinProbability.ToString("0.00")%</strong>
+    vs.
+    Drużyna 2: <strong>@team2WinProbability.ToString("0.00")%</strong>
+</p>
 
 <form id="matchForm">
     @foreach (var player in team1)

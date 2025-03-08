@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AplikacjaDoLosowania.Models
 {
@@ -12,5 +13,8 @@ namespace AplikacjaDoLosowania.Models
 
         public int GamesPlayed { get; set; } = 0;
         public int GamesWon { get; set; } = 0;
+
+        [NotMapped]
+        public float WinRatio => GamesPlayed > 0 ? (float)(GamesWon) / GamesPlayed : 0;
     }
 }

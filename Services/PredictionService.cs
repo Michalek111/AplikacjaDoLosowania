@@ -1,0 +1,44 @@
+﻿using AplikacjaDoLosowania.DataBase;
+using AplikacjaDoLosowania.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.ML;
+
+namespace AplikacjaDoLosowania.Services
+{
+    public class PredictionService
+    {
+        private readonly MLContext _mlContext;
+        private PredictionEngine<MatchData, MatchPrediction> _predictionEngine;
+
+        public PredictionService(ApplicationDBContext dbContext)
+        {
+            _mlContext = new MLContext();
+            TrainModel(dbContext);
+        }
+
+        private void TrainModel(ApplicationDBContext dbContext)
+        {
+            var matches = dbContext.Matches.ToList();
+
+            var data = matches.Select(m => new MatchData
+            {
+                Team1WinRatio = m.Team1Players.Split(',').Select(p => dbContext.Players.FirstOrDefault(pl => pl.Nick == p)?.WinRatio ?? 0).Average(),
+                Team2WinRatio = m.Team2Players.Split(',').Select(p => dbContext.Players.FirstOrDefault(pl => pl.Nick == p)?.WinRatio ?? 0).Average(),
+                Winner = m.Team1Score > m.Team2Score 
+            }).ToList();
+
+            var trainData = _mlContext.Data.LoadFromEnumerable(data);
+            var pipeline = _mlContext.Transforms.Concatenate("Features", new[] { "Team1WinRatio", "Team2WinRatio" })
+                .Append(_mlContext.BinaryClassification.Trainers.LbfgsLogisticRegression(labelColumnName: "Winner"));
+
+            var model = pipeline.Fit(trainData);
+            _predictionEngine = _mlContext.Model.CreatePredictionEngine<MatchData, MatchPrediction>(model);
+        }
+        public float PredictWinChance(float team1WinRatio, float team2WinRatio)
+        {
+            var prediction = _predictionEngine.Predict(new MatchData { Team1WinRatio = team1WinRatio, Team2WinRatio = team2WinRatio });
+            return prediction.Probability;
+        }
+    }
+}
+
