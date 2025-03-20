@@ -20,6 +20,13 @@ namespace AplikacjaDoLosowania.Services
         {
             var matches = dbContext.Matches.ToList();
 
+            if (!matches.Any())
+            {
+           
+                _predictionEngine = null;
+                return;
+            }
+
             var data = matches.Select(m => new MatchData
             {
                 Team1WinRatio = m.Team1Players.Split(',').Select(p => dbContext.Players.FirstOrDefault(pl => pl.Nick == p)?.WinRatio ?? 0).Average(),
@@ -36,6 +43,12 @@ namespace AplikacjaDoLosowania.Services
         }
         public float PredictWinChance(float team1WinRatio, float team2WinRatio)
         {
+
+            if (_predictionEngine == null)
+            {
+       
+                return 0.0f;
+            }
             var prediction = _predictionEngine.Predict(new MatchData { Team1WinRatio = team1WinRatio, Team2WinRatio = team2WinRatio });
             return prediction.Probability;
         }

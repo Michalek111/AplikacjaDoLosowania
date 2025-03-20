@@ -16,6 +16,5 @@ namespace AplikacjaDoLosowania.Models
         [Required]
         public string Role { get; set; }
 
-
     }
 }

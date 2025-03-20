@@ -1,5 +1,7 @@
-﻿using AplikacjaDoLosowania.Models;
+﻿using AplikacjaDoLosowania.DataBase;
+using AplikacjaDoLosowania.Models;
 using AplikacjaDoLosowania.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.Net.NetworkInformation;
@@ -9,12 +11,14 @@ namespace AplikacjaDoLosowania.Services
     public class PlayerService : IPlayerService
     {
         private readonly IPlayerRepository _playerRepository;
+        private readonly ApplicationDBContext _dbContext;
         private const string SessionKey = "SelectedPlayers";
 
 
-        public PlayerService(IPlayerRepository playerRepository)
+        public PlayerService(IPlayerRepository playerRepository,ApplicationDBContext dBContext)
         {
             _playerRepository = playerRepository;
+            _dbContext = dBContext;
         }
         private List<Player> GetSessionPlayers(ISession session)
         {
@@ -29,9 +33,7 @@ namespace AplikacjaDoLosowania.Services
 
         public async Task<List<Player>> GetAvailablePlayersAsync(ISession session)
         {
-            var allPlayers = await _playerRepository.GetAllPlayersAsync();
-            var selectedPlayers = GetSessionPlayers(session);
-            return allPlayers.Except(selectedPlayers).ToList();
+            return await _dbContext.Players.ToListAsync();
         }
 
         public void AddToSelected(ISession session, Player player)
