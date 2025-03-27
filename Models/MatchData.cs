@@ -9,6 +9,7 @@ namespace AplikacjaDoLosowania.Models
         public int[] Team1Ids { get; set; } = new int[0]; 
         public int[] Team2Ids { get; set; } = new int[0];
 
+        public int MatchId { get; set; }
         public string Map { get; set; }
 
         [LoadColumn(0)] public float Team1WinRatio { get; set; }

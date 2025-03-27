@@ -108,7 +108,7 @@ namespace AplikacjaDoLosowania.Services
                 .ThenByDescending(p => p.GamesPlayed)
                 .ToListAsync();
         }
-
+        /*
         public async Task<bool> UpdateMatchAsync(Match match)
         {
             var existingMatch = await _dbContext.Matches.FindAsync(match.Id);
@@ -159,7 +159,7 @@ namespace AplikacjaDoLosowania.Services
             await _dbContext.SaveChangesAsync();
             return true;
         }
-
+        */
         public async Task<List<Match>> GetMatchHistoryAsync()
         {
             return await _dbContext.Matches
@@ -171,6 +171,61 @@ namespace AplikacjaDoLosowania.Services
         {
             return await _dbContext.Matches.FindAsync(id);
         }
+
+        public async Task<bool> EditMatchWithPlayersAsync(MatchData matchData)
+        {
+            var match = await _dbContext.Matches.FindAsync(matchData.MatchId);
+            if (match == null) return false;
+
+            if (!IsValidCs2Score(matchData.Team1Score, matchData.Team2Score))
+            {
+                return false;
+            }
+
+           
+            var oldTeam1 = await _dbContext.Players
+                .Where(p => match.Team1Players.Contains(p.Nick)).ToListAsync();
+            var oldTeam2 = await _dbContext.Players
+                .Where(p => match.Team2Players.Contains(p.Nick)).ToListAsync();
+
+            foreach (var player in oldTeam1.Concat(oldTeam2))
+            {
+                player.GamesPlayed--;
+                if ((match.Team1Score > match.Team2Score && oldTeam1.Contains(player)) ||
+                    (match.Team2Score > match.Team1Score && oldTeam2.Contains(player)))
+                {
+                    player.GamesWon--;
+                }
+            }
+
+            
+            var newTeam1 = await _dbContext.Players
+                .Where(p => matchData.Team1Ids.Contains(p.Id)).ToListAsync();
+            var newTeam2 = await _dbContext.Players
+                .Where(p => matchData.Team2Ids.Contains(p.Id)).ToListAsync();
+
+            match.Team1Players = string.Join(", ", newTeam1.Select(p => p.Nick));
+            match.Team2Players = string.Join(", ", newTeam2.Select(p => p.Nick));
+            match.Team1Score = matchData.Team1Score;
+            match.Team2Score = matchData.Team2Score;
+            match.Map = matchData.Map;
+            match.MatchDate = DateTime.Now;
+
+            
+            foreach (var player in newTeam1.Concat(newTeam2))
+            {
+                player.GamesPlayed++;
+                if ((match.Team1Score > match.Team2Score && newTeam1.Contains(player)) ||
+                    (match.Team2Score > match.Team1Score && newTeam2.Contains(player)))
+                {
+                    player.GamesWon++;
+                }
+            }
+
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
 
     }
 }

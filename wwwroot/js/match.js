@@ -16,6 +16,13 @@
             map: document.getElementById("mapSelection").value
         };
 
+        
+        let matchIdInput = document.getElementById("matchId");
+        if (matchIdInput) {
+            jsonData.matchId = parseInt(matchIdInput.value);
+        }
+
+
         fetch(confirmMatchUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
