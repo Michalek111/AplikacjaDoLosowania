@@ -25,3 +25,7 @@ Aplikacja webowa stworzona w technologii ASP.NET MVC, umożliwiająca losowanie 
 - `Azure SQL` + `Microsoft Entra ID` (logowanie)
 
 
+## Używanie aplikacji
+
+Aplikacji można używać pod adresem:
+https://aplikacjadolosowania-azdgezhsb0e7fvcq.polandcentral-01.azurewebsites.net
