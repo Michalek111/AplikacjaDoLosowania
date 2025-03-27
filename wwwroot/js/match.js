@@ -7,6 +7,14 @@
         event.preventDefault();
 
         let formData = new FormData(this);
+        let team1Ids = [...formData.getAll("team1Ids[]")].map(Number);
+        let team2Ids = [...formData.getAll("team2Ids[]")].map(Number);
+
+        let duplicates = team1Ids.filter(id => team2Ids.includes(id));
+        if (duplicates.length > 0) {
+            showErrorMessage("⚠️ Gracz nie może być jednocześnie w obu drużynach!");
+            return;
+        }
 
         let jsonData = {
             team1Score: parseInt(document.getElementById("team1Score").value) || 0,
