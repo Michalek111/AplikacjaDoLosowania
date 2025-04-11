@@ -18,7 +18,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0'  # Użyj wersji .NET 6.0 (lub tej, którą używasz)
+          dotnet-version: '8.0'  # Użyj wersji .NET 6.0 (lub tej, którą używasz)
 
       - name: Restore dependencies
         run: dotnet restore AplikacjaDoLosowania/AplikacjaDoLosowania.csproj
@@ -31,6 +31,11 @@ jobs:
 
       - name: dotnet publish
         run: dotnet publish AplikacjaDoLosowania/AplikacjaDoLosowania.csproj -c Release -o './myapp'  # Zmieniona ścieżka
+
+      - name: List contents of myapp  # Krok sprawdzający zawartość katalogu myapp
+        run: |
+          echo "Checking contents of myapp folder"
+          dir ./myapp  # Pokazuje zawartość folderu myapp, aby upewnić się, że pliki są w nim
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
