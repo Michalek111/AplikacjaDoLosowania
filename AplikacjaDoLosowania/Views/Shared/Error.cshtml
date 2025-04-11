@@ -1,0 +1,14 @@
+﻿@model AplikacjaDoLosowania.Models.ErrorViewModel
+
+@{
+    ViewData["Title"] = "Błąd";
+}
+
+<h2>Wystąpił błąd</h2>
+
+@if (!string.IsNullOrEmpty(Model?.RequestId))
+{
+    <p><strong>Identyfikator błędu:</strong> @Model.RequestId</p>
+}
+
+<a asp-action="Index" asp-controller="Home" class="btn btn-primary">Powrót</a>

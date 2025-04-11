@@ -1,0 +1,53 @@
+﻿@model List<AplikacjaDoLosowania.Models.Match>
+
+@{
+	ViewData["Title"] = "Historia Meczów";
+}
+
+<div class="container">
+	<h2 class="text-center mt-4">📜 Historia Meczów</h2>
+
+	@if (Model.Count == 0)
+	{
+		<p class="text-center text-muted">Brak zapisanych meczów.</p>
+	}
+	else
+	{
+		<table class="table table-bordered mt-3">
+			<thead class="thead-dark">
+				<tr>
+					<th>📅 Data</th>
+					<th>🏆 Drużyna 1</th>
+					<th>⚔️ Wynik</th>
+					<th>🏆 Drużyna 2</th>
+					<th>🌍 Mapa</th>
+					@if (User.IsInRole("Admin"))
+					{
+						<th>✏️ Akcje</th>
+					}
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var match in Model)
+				{
+					<tr>
+						<td>@match.MatchDate.ToString("yyyy-MM-dd HH:mm")</td>
+						<td>@match.Team1Players</td>
+						<td><strong>@match.Team1Score - @match.Team2Score</strong></td>
+						<td>@match.Team2Players</td>
+						<td>@match.Map</td>
+
+						@if (User.IsInRole("Admin"))
+						{
+							<td>
+								<a asp-controller="Match" asp-action="EditMatch" asp-route-id="@match.Id" class="btn btn-warning btn-sm">
+									✏️ Edytuj
+								</a>
+							</td>
+						}
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+</div>

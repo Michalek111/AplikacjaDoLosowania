@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Wylosowane Drużyny";
+    var team1 = ViewBag.Team1 as List<AplikacjaDoLosowania.Models.Player> ?? new List<AplikacjaDoLosowania.Models.Player>();
+    var team2 = ViewBag.Team2 as List<AplikacjaDoLosowania.Models.Player> ?? new List<AplikacjaDoLosowania.Models.Player>();
+
+    var team1WinProbability = ViewBag.Team1WinProbability as float? ?? 50;
+    var team2WinProbability = ViewBag.Team2WinProbability as float? ?? 50;
+}
+<div id="matchData"
+     data-confirm-match-url="@Url.Action("ConfirmMatch", "Players")"
+     data-select-players-url="@Url.Action("SelectPlayers", "Players")">
+</div>
+
+<h3 class="text-center mt-4">🔥 Szansa na wygraną 🔥</h3>
+<p class="text-center">
+    Drużyna 1: <strong>@team1WinProbability.ToString("0.00")%</strong>
+    vs.
+    Drużyna 2: <strong>@team2WinProbability.ToString("0.00")%</strong>
+</p>
+
+<form id="matchForm">
+    @foreach (var player in team1)
+    {
+        <input type="hidden" name="team1Ids[]" value="@player.Id">
+    }
+    @foreach (var player in team2)
+    {
+        <input type="hidden" name="team2Ids[]" value="@player.Id">
+    }
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <h4>Drużyna 1</h4>
+                <ul class="list-group">
+                    @foreach (var player in team1)
+                    {
+                        <li class="list-group-item">@player.Nick</li>
+                    }
+                </ul>
+                <div class="mt-3">
+                    <label for="team1Score">Punkty:</label>
+                    <input type="number" id="team1Score" name="team1Score" class="form-control" required min="0">
+                </div>
+            </div>
+
+            <div class="col-md-2 text-center">
+                <h5>🏆 Wybierz Mapę</h5>
+                <select id="mapSelection" name="map" class="form-control mt-2" required>
+                    <option value="" disabled selected>Wybierz mapę...</option>
+                    <option value="Mirage">Mirage</option>
+                    <option value="Inferno">Inferno</option>
+                    <option value="Dust2">Dust II</option>
+                    <option value="Nuke">Nuke</option>
+                    <option value="Vertigo">Vertigo</option>
+                    <option value="Ancient">Ancient</option>
+                    <option value="Anubis">Anubis</option>
+                </select>
+            </div>
+
+            <div class="col-md-5">
+                <h4>Drużyna 2</h4>
+                <ul class="list-group">
+                    @foreach (var player in team2)
+                    {
+                        <li class="list-group-item">@player.Nick</li>
+                    }
+                </ul>
+                <div class="mt-3">
+                    <label for="team2Score">Punkty:</label>
+                    <input type="number" id="team2Score" name="team2Score" class="form-control" required min="0">
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <button id="confirmMatchBtn" type="submit" class="btn btn-primary">✅ Zatwierdź Mecz</button>
+        </div>
+    </div>
+</form>
+
+<div id="errorMessage" class="alert alert-danger text-center mt-3" style="display: none;"></div>
+<script src="~/js/match.js" asp-append-version="true"></script>

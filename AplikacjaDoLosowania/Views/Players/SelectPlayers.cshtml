@@ -1,0 +1,68 @@
+﻿@model List<AplikacjaDoLosowania.Models.Player>
+
+@{
+    ViewData["Title"] = "Wybór Graczy";
+    var selectedPlayers = ViewBag.SelectedPlayers as List<AplikacjaDoLosowania.Models.Player> ?? new List<AplikacjaDoLosowania.Models.Player>();
+}
+
+
+<h2 class="text-center">Wybierz 10 Graczy</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <h4>Dostępni gracze</h4>
+            <a asp-action="Create" class="btn btn-success mb-2">Dodaj Nowego Gracza</a>
+
+      
+            <input type="text" id="searchInput" class="form-control mb-2" placeholder="Szukaj gracza..." onkeyup="filterPlayers()">
+            <ul class="list-group" id="playersList">
+                @foreach (var player in Model.Where(p => !selectedPlayers.Any(sp => sp.Id == p.Id)).ToList())
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="player-name">@player.Nick</span>
+                        <form method="post" asp-action="AddToSelected">
+                            <input type="hidden" name="id" value="@player.Id" />
+                            <button type="submit" class="btn btn-primary btn-sm">➕ Dodaj</button>
+                        </form>
+                    </li>
+                }
+            </ul>
+
+
+
+            <p id="noResults" class="text-muted" style="display: none;">Brak wyników.</p>
+
+        </div>
+
+        <div class="col-md-5 offset-md-2">
+            <h4>Wybrani gracze <span id="selectedCount">(@ViewBag.SelectedPlayers.Count/10)</span></h4>
+            <ul class="list-group" id="selectedPlayersList">
+                @foreach (var player in ViewBag.SelectedPlayers as List<AplikacjaDoLosowania.Models.Player>)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @player.Nick
+                        <form method="post" asp-action="RemoveFromSelected">
+                            <input type="hidden" name="id" value="@player.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">❌ Usuń</button>
+                        </form>
+                    </li>
+                }
+            </ul>
+            <form method="post" asp-action="RandomTeams">
+                <button type="submit" class="btn btn-primary mt-3" @(ViewBag.SelectedPlayers.Count == 10 ? "" : "disabled")>
+                    🎲 Losuj Drużyny
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/css/players.css" asp-append-version="true" />
+
+
+<script src="~/js/players.js" asp-append-version="true"></script>
+
+
+
+

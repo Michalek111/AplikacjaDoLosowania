@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Strona Główna";
+}
+
+<div class="container text-center mt-5">
+    <h1 class="display-4">Losowe Drużyny CS2</h1>
+    <p class="lead text-muted">
+        Witamy w aplikacji do tworzenia i przechowywania wyników gier 5 na 5 w CS2!
+        Nasz system pozwala na łatwe losowanie drużyn oraz śledzenie wyników.
+    </p>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h5 class="card-title">📌 Jak to działa?</h5>
+                    <p class="card-text">
+                        1️⃣ Wybierz 10 graczy z bazy danych lub dodaj nowych. <br>
+                        2️⃣ System wylosuje dwie drużyny po 5 osób. <br>
+                        3️⃣ Po zakończeniu meczu wpisz wynik i zapisz historię rozgrywek.
+
+                        <div> Wprowadziłeś zły wynik? Nie przejmuj się! Admini mogą zmieniać wyniki meczów jeśli wystąpi taka konieczność! </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a asp-controller="Players" asp-action="SelectPlayers" class="btn btn-primary btn-lg">
+            🎮 Rozpocznij Grę
+        </a>
+        <a asp-controller="Players" asp-action="Create" class="btn btn-success btn-lg">
+            ➕ Dodaj Gracza
+        </a>
+    </div>
+</div>
