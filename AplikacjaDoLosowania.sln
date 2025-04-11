@@ -3,10 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplikacjaDoLosowania", "..\AplikacjaDoLosowaniaFinal\AplikacjaDoLosowania\AplikacjaDoLosowania.csproj", "{7CA2A48A-BA65-43BD-A950-6F316C4CC90F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplikacjaDoLosowania", "AplikacjaDoLosowania\AplikacjaDoLosowania.csproj", "{7CA2A48A-BA65-43BD-A950-6F316C4CC90F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplikacjaDoLosowania.Tests", "..\AplikacjaDoLosowaniaFinal\AplikacjaDoLosowania.Tests\AplikacjaDoLosowania.Tests.csproj", "{8AB8669D-BF7E-4918-8B34-93F3AB776424}"
-
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplikacjaDoLosowania.Tests", "AplikacjaDoLosowania.Tests\AplikacjaDoLosowania.Tests.csproj", "{8AB8669D-BF7E-4918-8B34-93F3AB776424}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
