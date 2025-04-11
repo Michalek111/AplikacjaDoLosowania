@@ -1,0 +1,27 @@
+﻿# Pliki binarne i build
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.vs/
+
+
+# Konfiguracje użytkownika
+.vscode/
+*.user
+*.suo
+
+# Pliki logów
+logs/
+*.log
+
+# Pliki tymczasowe
+*.tmp
+*.bak
+
+# Sekrety i klucze
+appsettings.json
+appsettings.Development.json
+
+
