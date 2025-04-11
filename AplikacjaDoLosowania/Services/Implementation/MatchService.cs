@@ -18,31 +18,39 @@ namespace AplikacjaDoLosowania.Services.Implementation
             _matchRepository = matchRepository;
         }
 
-        public bool IsValidCs2Score(int team1Score, int team2Score)
-        {
+         public bool IsValidCs2Score(int team1Score, int team2Score)
+         {
 
-            int lbDogrywek = 0;
-            int totalRounds = team1Score + team2Score;
+             int lbDogrywek = 0;
+             int totalRounds = team1Score + team2Score;
 
-            if (team1Score < 0 || team2Score < 0)
+             if (team1Score < 0 || team2Score < 0)
+             {
+                 return false;
+
+             }
+
+
+             if ((team1Score == 13 || team2Score == 13) && totalRounds <= 24)
+             {
+                 return true;
+             }
+
+             if ((totalRounds - 24) % 6 == 0)
+             {
+             lbDogrywek = (totalRounds - 24) / 6;
+             }
+             else
+             {
+                 lbDogrywek = ((totalRounds - 24) / 6) +1;
+             }
+
+            int winningScore = Math.Max(team1Score, team2Score);
+            int losingScore = Math.Min(team1Score, team2Score);
+
+            if (winningScore - losingScore > 4)
             {
                 return false;
-
-            }
-
-
-            if ((team1Score == 13 || team2Score == 13) && totalRounds <= 24)
-            {
-                return true;
-            }
-
-            if ((totalRounds - 24) % 6 == 0)
-            {
-            lbDogrywek = (totalRounds - 24) / 6;
-            }
-            else
-            {
-                lbDogrywek = ((totalRounds - 24) / 6) +1;
             }
 
             if ( (team1Score == 12 + (3 * lbDogrywek) + 1) || (team2Score == 12 + (3 * lbDogrywek) + 1) && (team1Score + team2Score <= 24 + (lbDogrywek * 6)))
@@ -50,8 +58,8 @@ namespace AplikacjaDoLosowania.Services.Implementation
                 return true;
             }
 
-            return false;
-        }
+             return false;
+         }
 
         public async Task<bool> ConfirmMatchAsync(MatchData matchData)
         {

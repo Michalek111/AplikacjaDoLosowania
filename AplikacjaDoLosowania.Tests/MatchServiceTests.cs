@@ -50,7 +50,10 @@ namespace AplikacjaDoLosowania.Tests
         [InlineData(19, 17, true)]
         [InlineData(19, 18, false)]
         [InlineData(19, 19, false)]
-        [InlineData(18, 18, false)]
+        [InlineData(19, 11, false)]
+        [InlineData(19, 12, false)]
+        [InlineData(19, 13, false)]
+        [InlineData(19, 14, false)]
 
         public void IsValidCs2Score_ShouldReturnExpected(int Team1Score, int Team2Score,bool expected)
         {
