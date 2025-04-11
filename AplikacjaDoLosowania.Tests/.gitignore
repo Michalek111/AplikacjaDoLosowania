@@ -6,7 +6,6 @@ obj/
 *.pdb
 *.vs/
 
-
 # Konfiguracje użytkownika
 .vscode/
 *.user
@@ -24,4 +23,16 @@ logs/
 appsettings.json
 appsettings.Development.json
 
+# Pliki IDE (Visual Studio, JetBrains)
+.vs2019/
+.vs2017/
+.idea/
 
+# Docker
+.dockerignore
+
+# NuGet
+.nuget/
+
+# Pliki tymczasowe testów
+TestResults/
