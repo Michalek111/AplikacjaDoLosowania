@@ -1,1 +1,1 @@
-web: dotnet AplikacjaDoLosowania/AplikacjaDoLosowania.dll
+web: dotnet AplikacjaDoLosowaniaFinal/AplikacjaDoLosowania/AplikacjaDoLosowania.dll
