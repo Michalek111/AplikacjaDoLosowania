@@ -24,4 +24,6 @@ logs/
 appsettings.json
 appsettings.Development.json
 
+# Pliki ci/cd
 
+*.github
