@@ -1,5 +1,4 @@
-# Aplikacja Do Losowania Drużyn
-
+## Aplikacja do losowania drużyn CS2
 Aplikacja webowa stworzona w technologii ASP.NET MVC, umożliwiająca losowanie drużyn, przewidywanie wyników, zarządzanie meczami oraz statystykami graczy. Wspiera rolę administratora i użytkownika, a dane przechowywane są w bazie danych Microsoft Azure SQL.
 
 ## Funkcje aplikacji
